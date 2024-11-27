@@ -15,6 +15,7 @@ import Img3 from "../Acesses/product-img-9.jpg"
 import Img4 from "../Acesses/product-img-6.jpg"
 import { Card, Rating,  } from '@mui/material'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function ButtonAppBar() {
   const dummydata =[
@@ -47,6 +48,14 @@ export default function ButtonAppBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+ const [Products,setProducts]=React.useState([])
+ console.log(Products);
+ 
+  React.useEffect(()=>{
+
+    const Productdata=axios.get("https://api.escuelajs.co/api/v1/products").then((data)=>{setProducts(data.data);
+    })
+  },[])
   return (
     <>
     <Box sx={{ flexGrow: 1 }}>
@@ -90,21 +99,25 @@ export default function ButtonAppBar() {
      <div className='d-flex gap-5 container mt-5'>
 
      {
-       dummydata.map((item, index)=>{
+       Products.map((item)=>{
          return(
-           <Card className='' key={index}>
-               <img src={ item.Img} alt="" />
-           <Typography variant='body1'>{item.Name} </Typography>
-          
-         
-           <Typography variant='body2'>{item.Price} </Typography>
-           <Rating name="read-only" value={3} readOnly />
+           <div className='d-flex'>
+          <Card >
+          <Box >
+ <img className='d-flex align-items-center p-3 object-fit-cover ' style={{width:"180px", minHeight:"100px",maxHeight:"180px"}} src={item.images [0]} alt="" />
+ <Rating className='ms-4' name="read-only" value={3} readOnly />
+ <Typography className='text-center' variant='body1'>{item. title} </Typography>
+ <Typography className='text-center' variant='body2'>{item. Price} </Typography>
+ 
+           </Box>
            </Card>
+           </div>
          )
-       })
-     }
+        })
+     }
      
-     
+  
+
      
      
         </div>
